@@ -45,7 +45,9 @@ class MessageViewController: UIViewController {
             DummyMessengerAPI.sendMessage(sendMessageTextField.text ?? "", in: self)
             sendMessageTextField.text = ""
 
-            DummyMessengerAPI.fetchDialogsData(in: self, completion: nil)
+            DummyMessengerAPI.fetchDialogsData(in: self, completion: {
+                self.tableView.reloadData()
+            })
 
             scrollToBottom()
         }

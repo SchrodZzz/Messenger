@@ -412,8 +412,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="T8R-2R-ZK4">
-                                <rect key="frame" x="20" y="771" width="310" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="T8R-2R-ZK4">
+                                <rect key="frame" x="20" y="771" width="318" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -421,18 +421,18 @@
                                 <rect key="frame" x="20" y="88" width="374" height="675"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCell" rowHeight="110" id="3uO-Vu-E9l" customClass="MessageTableViewCell" customModule="Messenger" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="374" height="110"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FriendMessageCell" id="3uO-Vu-E9l" customClass="MessageTableViewCell" customModule="Messenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="374" height="58.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3uO-Vu-E9l" id="D0L-i2-7xW">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="110"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="58.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WeP-CJ-g83">
-                                                    <rect key="frame" x="20" y="11" width="334" height="88"/>
+                                                    <rect key="frame" x="20" y="11" width="58" height="37.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lj-kr-jwq">
-                                                            <rect key="frame" x="8" y="8" width="326" height="72"/>
+                                                            <rect key="frame" x="8" y="8" width="42" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -442,21 +442,61 @@
                                                     <constraints>
                                                         <constraint firstItem="2lj-kr-jwq" firstAttribute="leading" secondItem="WeP-CJ-g83" secondAttribute="leadingMargin" id="1e2-7c-rPz"/>
                                                         <constraint firstItem="2lj-kr-jwq" firstAttribute="top" secondItem="WeP-CJ-g83" secondAttribute="topMargin" id="YH4-8U-OXn"/>
-                                                        <constraint firstAttribute="trailing" secondItem="2lj-kr-jwq" secondAttribute="trailing" id="d8y-0T-y8w"/>
+                                                        <constraint firstAttribute="trailing" secondItem="2lj-kr-jwq" secondAttribute="trailing" constant="8" id="d8y-0T-y8w"/>
                                                         <constraint firstItem="2lj-kr-jwq" firstAttribute="bottom" secondItem="WeP-CJ-g83" secondAttribute="bottomMargin" id="sGd-8B-Uov"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="wqZ-e2-3bi"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="WeP-CJ-g83" firstAttribute="leading" secondItem="D0L-i2-7xW" secondAttribute="leadingMargin" id="EYy-dz-epk"/>
-                                                <constraint firstItem="WeP-CJ-g83" firstAttribute="bottom" secondItem="D0L-i2-7xW" secondAttribute="bottomMargin" id="P7e-0T-MvI"/>
-                                                <constraint firstItem="WeP-CJ-g83" firstAttribute="trailing" secondItem="D0L-i2-7xW" secondAttribute="trailingMargin" id="WeN-V2-DCC"/>
+                                                <constraint firstItem="WeP-CJ-g83" firstAttribute="bottom" secondItem="D0L-i2-7xW" secondAttribute="bottomMargin" constant="1" id="P7e-0T-MvI"/>
+                                                <constraint firstItem="WeP-CJ-g83" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="D0L-i2-7xW" secondAttribute="trailingMargin" constant="-48" id="WeN-V2-DCC"/>
                                                 <constraint firstItem="WeP-CJ-g83" firstAttribute="top" secondItem="D0L-i2-7xW" secondAttribute="topMargin" id="n6u-tT-Nqs"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="messageLabel" destination="2lj-kr-jwq" id="6m6-Hb-61j"/>
                                             <outlet property="messageView" destination="WeP-CJ-g83" id="8VT-0k-oAd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserMessageCell" id="tST-j4-z3V" customClass="MessageTableViewCell" customModule="Messenger" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86.5" width="374" height="59.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tST-j4-z3V" id="VM4-yx-30b">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CTG-i1-2jJ">
+                                                    <rect key="frame" x="296" y="11" width="58" height="37.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YnO-9o-FXy">
+                                                            <rect key="frame" x="8" y="8" width="42" height="21.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="YnO-9o-FXy" firstAttribute="top" secondItem="CTG-i1-2jJ" secondAttribute="topMargin" id="1OU-oB-GHP"/>
+                                                        <constraint firstItem="YnO-9o-FXy" firstAttribute="bottom" secondItem="CTG-i1-2jJ" secondAttribute="bottomMargin" id="Pqe-L6-9WO"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="b3E-yu-4SK"/>
+                                                        <constraint firstItem="YnO-9o-FXy" firstAttribute="leading" secondItem="CTG-i1-2jJ" secondAttribute="leadingMargin" id="kSL-6Y-WeZ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="YnO-9o-FXy" secondAttribute="trailing" constant="8" id="zdR-0r-GBe"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="CTG-i1-2jJ" firstAttribute="top" secondItem="VM4-yx-30b" secondAttribute="topMargin" id="4jq-VW-8Az"/>
+                                                <constraint firstItem="CTG-i1-2jJ" firstAttribute="bottom" secondItem="VM4-yx-30b" secondAttribute="bottomMargin" id="81f-xG-9dS"/>
+                                                <constraint firstItem="CTG-i1-2jJ" firstAttribute="trailing" secondItem="VM4-yx-30b" secondAttribute="trailingMargin" id="c7W-Ka-84l"/>
+                                                <constraint firstItem="CTG-i1-2jJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VM4-yx-30b" secondAttribute="leadingMargin" constant="48" id="qIG-IC-xSg"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="messageLabel" destination="YnO-9o-FXy" id="rqB-bx-HK4"/>
+                                            <outlet property="messageView" destination="CTG-i1-2jJ" id="5iF-iw-P8S"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -466,9 +506,9 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wva-nq-1yI">
-                                <rect key="frame" x="338" y="771" width="56" height="34"/>
+                                <rect key="frame" x="346" y="771" width="48" height="34"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="56" id="d9Z-xI-XQ1"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="48" id="d9Z-xI-XQ1"/>
                                 </constraints>
                                 <state key="normal" title="Send"/>
                                 <connections>
@@ -500,7 +540,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WFA-fk-XE6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3539" y="82"/>
+            <point key="canvasLocation" x="3537.68115942029" y="81.696428571428569"/>
         </scene>
         <!--Dialogs View Controller-->
         <scene sceneID="r29-rN-U37">

@@ -33,7 +33,12 @@ class MessageViewController: UIViewController {
         tableView.separatorStyle = .none
         sendMessageTextField.delegate = self
         self.title = MessageViewController.friend.login ?? ""
-
+    }
+    
+    #warning("TODO: fix the scroll to buttom 'jump'")
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         scrollToBottom()
     }
 
@@ -42,14 +47,13 @@ class MessageViewController: UIViewController {
         if sendMessageTextField.text == "" {
             CustomAnimations.shakeTextField(sendMessageTextField)
         } else {
-            DummyMessengerAPI.sendMessage(sendMessageTextField.text ?? "", in: self)
-            sendMessageTextField.text = ""
-
-            DummyMessengerAPI.fetchDialogsData(in: self, completion: {
-                self.tableView.reloadData()
+            DummyMessengerAPI.sendMessage(sendMessageTextField.text ?? "", in: self, completion: {
+                DummyMessengerAPI.fetchDialogsData(in: self, completion: {
+                    self.tableView.reloadData()
+                    self.scrollToBottom(animated: true)
+                })
             })
-
-            scrollToBottom()
+            sendMessageTextField.text = ""
         }
     }
 
@@ -84,10 +88,10 @@ class MessageViewController: UIViewController {
         try! fetchedResultsController.performFetch()
     }
 
-    private func scrollToBottom() {
+    private func scrollToBottom(animated: Bool = false) {
         let messageCnt = fetchedResultsController.fetchedObjects!.count
         if messageCnt > 0 {
-            self.tableView.scrollToRow(at: NSIndexPath.init(row: messageCnt - 1, section: 0) as IndexPath, at: .bottom, animated: false)
+            self.tableView.scrollToRow(at: NSIndexPath.init(row: messageCnt - 1, section: 0) as IndexPath, at: .bottom, animated: animated)
         }
     }
 
@@ -113,15 +117,16 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
+        let message = fetchedResultsController.object(at: indexPath)
+        let senderIsFriend = message.senderId == MessageViewController.friend.id
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: senderIsFriend ? "FriendMessageCell" : "UserMessageCell", for: indexPath)
         as? MessageTableViewCell else {
             fatalError("The dequeued cell is not an instance of MessageTableViewCell.")
         }
 
-        let message = fetchedResultsController.object(at: indexPath)
-
         cell.messageLabel.text = message.body ?? ""
-        cell.messageView.backgroundColor = (message.senderId == MessageViewController.friend.id) ? .systemGray6 : .systemTeal
+        cell.messageView.backgroundColor = senderIsFriend ? .systemGray6 : .systemTeal
 
         cell.selectionStyle = .none
 

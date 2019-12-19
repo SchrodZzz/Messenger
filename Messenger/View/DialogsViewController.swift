@@ -53,6 +53,7 @@ class DialogsViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshDialogsData), for: .valueChanged)
     }
 
+    #warning("TODO: sort by last message")
     private func setFetchedResultController() {
         let request: NSFetchRequest<Friend> = Friend.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "login", ascending: true)]

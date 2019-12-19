@@ -15,13 +15,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="message.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="LBh-Wd-72v">
-                                <rect key="frame" x="87" y="383.5" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="message.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="LBh-Wd-72v">
+                                <rect key="frame" x="87" y="383.5" width="240" height="129"/>
                                 <color key="tintColor" systemColor="secondarySystemGroupedBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="LBh-Wd-72v" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="339" id="2cw-EA-lTp"/>
+                            <constraint firstItem="LBh-Wd-72v" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Od9-de-Lwb"/>
+                            <constraint firstItem="LBh-Wd-72v" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="aku-Ut-hf9"/>
+                            <constraint firstItem="LBh-Wd-72v" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vEA-Ta-ASU"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>

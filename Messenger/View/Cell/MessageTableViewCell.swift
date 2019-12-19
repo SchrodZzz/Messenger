@@ -17,7 +17,11 @@ class MessageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.messageView.layer.cornerRadius = 10.0
+        
+        self.messageLabel.numberOfLines = 0
+        self.messageLabel.sizeToFit()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

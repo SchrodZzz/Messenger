@@ -175,7 +175,7 @@ class DummyMessengerAPI {
         task.resume()
     }
     
-    static func sendMessage(_ text: String, to: Int32 = MessageViewController.friend.id, in vc: UIViewController) {
+    static func sendMessage(_ text: String, to: Int32 = MessageViewController.friend.id, in vc: UIViewController, completion: (()->())?) {
         let json: [String: Any] = ["receiver_id": to, "body": text]
         let jsonBody = try? JSONSerialization.data(withJSONObject: json)
 
@@ -196,6 +196,8 @@ class DummyMessengerAPI {
                 } else {
                     Alert.performAlertTo(vc, message: "Connection Error")
                 }
+                
+                completion?()
             }
         }
 

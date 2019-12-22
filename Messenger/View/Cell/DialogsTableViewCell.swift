@@ -9,12 +9,12 @@
 import UIKit
 
 class DialogsTableViewCell: UITableViewCell {
-    
+
     //MARK: Properties
     @IBOutlet weak var friendAvatar: UIImageView!
     @IBOutlet weak var friendLoginLabel: UILabel!
     @IBOutlet weak var lastMessageLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

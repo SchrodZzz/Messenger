@@ -13,13 +13,13 @@ class MessageTableViewCell: UITableViewCell {
     //MARK: Properties
     @IBOutlet weak var messageView: UIView!
     @IBOutlet weak var messageLabel: UILabel!
-    
-    
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         self.messageView.layer.cornerRadius = 10.0
-        
+
         self.messageLabel.numberOfLines = 0
         self.messageLabel.sizeToFit()
     }

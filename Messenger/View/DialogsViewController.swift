@@ -30,7 +30,7 @@ class DialogsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         DummyMessengerAPI.fetchFriendsData(in: self, completion: {
             DummyMessengerAPI.fetchDialogsData(in: self, completion: {
                 self.tableView.reloadData()
@@ -59,7 +59,10 @@ class DialogsViewController: UIViewController {
         request.sortDescriptors = [NSSortDescriptor(key: "login", ascending: true)]
         request.predicate = NSPredicate(format: "user.login = %@ and messages.@count > 0", DummyMessengerAPI.userLogin)
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        try! fetchedResultsController.performFetch()
+        guard let _ = try? fetchedResultsController.performFetch() else {
+            Alert.performAlert(to: self, message: "Can't fetch from current context")
+            return
+        }
     }
 
 }
@@ -76,24 +79,22 @@ extension DialogsViewController: UITableViewDelegate, UITableViewDataSource {
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DialogCell", for: indexPath)
-        as? DialogsTableViewCell else {
-            fatalError("The dequeued cell is not an instance of DialogsTableViewCell.")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DialogCell", for: indexPath) as! DialogsTableViewCell
 
         let friend = fetchedResultsController.object(at: indexPath)
 
         let request: NSFetchRequest<Message> = Message.fetchRequest()
         request.predicate = NSPredicate(format: "friend.login = %@", friend.login ?? "")
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-        let messages = try! stack.context.fetch(request)
 
-        if messages.count > 0 {
+        if let messages = try? stack.context.fetch(request), messages.count > 0 {
             let lastMessage = messages[0]
-            cell.lastMessageLabel.text = (lastMessage.friend!.id == lastMessage.senderId
-                ? lastMessage.friend!.login!
-                : DummyMessengerAPI.userLogin)
-                + ": " + lastMessage.body!
+            let lastMessageBody = lastMessage.body ?? ""
+            let lastMessageFriendId = lastMessage.friend?.id ?? -1
+            let lastMessageFriendLogin = lastMessage.friend?.login ?? "Unknown"
+            let lastMessageSenderIsFriend = lastMessageFriendId == lastMessage.senderId
+            cell.lastMessageLabel.text = (lastMessageSenderIsFriend ? lastMessageFriendLogin : DummyMessengerAPI.userLogin)
+                + ": " + lastMessageBody
         } else {
             cell.lastMessageLabel.text = ""
         }
@@ -128,20 +129,20 @@ extension DialogsViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .none)
-        default:
-            break
+        guard let newIndexPath = newIndexPath else {
+            Alert.performAlert(to: self, message: "FetchedResultsController can't update object")
+            return
+        }
+
+        if type == .insert {
+            tableView.insertRows(at: [newIndexPath], with: .none)
         }
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
+
+        if type == .insert {
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .none)
-        default:
-            break
         }
     }
 }

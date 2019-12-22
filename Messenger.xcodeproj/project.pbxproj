@@ -31,6 +31,12 @@
 		20654280239A4F1F004151A2 /* Friend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2065427A239A4F1F004151A2 /* Friend+CoreDataClass.swift */; };
 		20654281239A4F1F004151A2 /* Friend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2065427B239A4F1F004151A2 /* Friend+CoreDataProperties.swift */; };
 		206BECB5239A46DB007E3281 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BECB4239A46DB007E3281 /* LoginViewController.swift */; };
+		2076D3B823AF62B00033F4E6 /* ResponsePattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076D3B723AF62B00033F4E6 /* ResponsePattern.swift */; };
+		2076D3BA23AF62F20033F4E6 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076D3B923AF62F20033F4E6 /* LoginResponse.swift */; };
+		2076D3BE23AF79470033F4E6 /* FriendsListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076D3BD23AF79470033F4E6 /* FriendsListResponse.swift */; };
+		2076D3C623AF7C1F0033F4E6 /* UserStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076D3BB23AF63E80033F4E6 /* UserStruct.swift */; };
+		2076D3CA23AF903E0033F4E6 /* FriendToAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076D3C923AF903E0033F4E6 /* FriendToAdd.swift */; };
+		2076D3CC23AFA3C20033F4E6 /* MessagesListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076D3CB23AFA3C20033F4E6 /* MessagesListResponse.swift */; };
 		209862ED239BB2B80081BCF3 /* CustomAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209862EC239BB2B80081BCF3 /* CustomAnimations.swift */; };
 		209862EF239BBA5A0081BCF3 /* DummyMessengerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209862EE239BBA5A0081BCF3 /* DummyMessengerAPI.swift */; };
 		209862F4239CB6530081BCF3 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209862F0239CB6530081BCF3 /* User+CoreDataClass.swift */; };
@@ -39,10 +45,10 @@
 		209862F7239CB6530081BCF3 /* Token+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209862F3239CB6530081BCF3 /* Token+CoreDataProperties.swift */; };
 		209862F9239CE1B00081BCF3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209862F8239CE1B00081BCF3 /* CoreDataStack.swift */; };
 		209862FB239CE6030081BCF3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209862FA239CE6030081BCF3 /* SignUpViewController.swift */; };
-		20B8E20D23A27466008D21E6 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8E20C23A27466008D21E6 /* JSONParser.swift */; };
 		20B8E21223A27659008D21E6 /* FriendStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8E21123A27659008D21E6 /* FriendStruct.swift */; };
 		20B8E21423A288CF008D21E6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8E21323A288CF008D21E6 /* Utils.swift */; };
 		20B8E21623A28B70008D21E6 /* DialogsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B8E21523A28B70008D21E6 /* DialogsViewController.swift */; };
+		20CCB81923AFAB7A00782BD5 /* MessageToSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CCB81823AFAB7A00782BD5 /* MessageToSend.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +99,12 @@
 		2065427A239A4F1F004151A2 /* Friend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2065427B239A4F1F004151A2 /* Friend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Friend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		206BECB4239A46DB007E3281 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2076D3B723AF62B00033F4E6 /* ResponsePattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePattern.swift; sourceTree = "<group>"; };
+		2076D3B923AF62F20033F4E6 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		2076D3BB23AF63E80033F4E6 /* UserStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStruct.swift; sourceTree = "<group>"; };
+		2076D3BD23AF79470033F4E6 /* FriendsListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListResponse.swift; sourceTree = "<group>"; };
+		2076D3C923AF903E0033F4E6 /* FriendToAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendToAdd.swift; sourceTree = "<group>"; };
+		2076D3CB23AFA3C20033F4E6 /* MessagesListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesListResponse.swift; sourceTree = "<group>"; };
 		209862EC239BB2B80081BCF3 /* CustomAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimations.swift; sourceTree = "<group>"; };
 		209862EE239BBA5A0081BCF3 /* DummyMessengerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyMessengerAPI.swift; sourceTree = "<group>"; };
 		209862F0239CB6530081BCF3 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -101,10 +113,10 @@
 		209862F3239CB6530081BCF3 /* Token+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Token+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		209862F8239CE1B00081BCF3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		209862FA239CE6030081BCF3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		20B8E20C23A27466008D21E6 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		20B8E21123A27659008D21E6 /* FriendStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendStruct.swift; sourceTree = "<group>"; };
 		20B8E21323A288CF008D21E6 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		20B8E21523A28B70008D21E6 /* DialogsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogsViewController.swift; sourceTree = "<group>"; };
+		20CCB81823AFAB7A00782BD5 /* MessageToSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageToSend.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,7 +229,7 @@
 		2055120823978B2A00206765 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				20B8E21023A27649008D21E6 /* Structs */,
+				2076D3B023AE805D0033F4E6 /* Codable */,
 				209862F0239CB6530081BCF3 /* User+CoreDataClass.swift */,
 				209862F1239CB6530081BCF3 /* User+CoreDataProperties.swift */,
 				209862F2239CB6530081BCF3 /* Token+CoreDataClass.swift */,
@@ -230,12 +242,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2076D3B023AE805D0033F4E6 /* Codable */ = {
+			isa = PBXGroup;
+			children = (
+				20B8E21023A27649008D21E6 /* Structs */,
+				2076D3B723AF62B00033F4E6 /* ResponsePattern.swift */,
+				2076D3B923AF62F20033F4E6 /* LoginResponse.swift */,
+				2076D3BD23AF79470033F4E6 /* FriendsListResponse.swift */,
+				2076D3CB23AFA3C20033F4E6 /* MessagesListResponse.swift */,
+			);
+			path = Codable;
+			sourceTree = "<group>";
+		};
 		209862EB239BB29C0081BCF3 /* Util */ = {
 			isa = PBXGroup;
 			children = (
 				20B8E21323A288CF008D21E6 /* Utils.swift */,
 				2063520F23A14A25002B2F84 /* Alert.swift */,
-				20B8E20C23A27466008D21E6 /* JSONParser.swift */,
 				209862F8239CE1B00081BCF3 /* CoreDataStack.swift */,
 				209862EC239BB2B80081BCF3 /* CustomAnimations.swift */,
 				209862EE239BBA5A0081BCF3 /* DummyMessengerAPI.swift */,
@@ -246,8 +269,11 @@
 		20B8E21023A27649008D21E6 /* Structs */ = {
 			isa = PBXGroup;
 			children = (
+				2076D3BB23AF63E80033F4E6 /* UserStruct.swift */,
 				20B8E21123A27659008D21E6 /* FriendStruct.swift */,
+				2076D3C923AF903E0033F4E6 /* FriendToAdd.swift */,
 				202F77D923A2A7A30065706B /* MessageStruct.swift */,
+				20CCB81823AFAB7A00782BD5 /* MessageToSend.swift */,
 			);
 			path = Structs;
 			sourceTree = "<group>";
@@ -387,7 +413,8 @@
 				20B8E21223A27659008D21E6 /* FriendStruct.swift in Sources */,
 				2050FA4923A3A67C00E78344 /* MessageTableViewCell.swift in Sources */,
 				209862EF239BBA5A0081BCF3 /* DummyMessengerAPI.swift in Sources */,
-				20B8E20D23A27466008D21E6 /* JSONParser.swift in Sources */,
+				2076D3CA23AF903E0033F4E6 /* FriendToAdd.swift in Sources */,
+				2076D3C623AF7C1F0033F4E6 /* UserStruct.swift in Sources */,
 				205511D12396DC4800206765 /* Messenger.xcdatamodeld in Sources */,
 				20B8E21423A288CF008D21E6 /* Utils.swift in Sources */,
 				205511C52396DC4800206765 /* AppDelegate.swift in Sources */,
@@ -396,17 +423,22 @@
 				209862ED239BB2B80081BCF3 /* CustomAnimations.swift in Sources */,
 				205512002397899200206765 /* SettingsTableViewController.swift in Sources */,
 				202F77DA23A2A7A30065706B /* MessageStruct.swift in Sources */,
+				20CCB81923AFAB7A00782BD5 /* MessageToSend.swift in Sources */,
+				2076D3CC23AFA3C20033F4E6 /* MessagesListResponse.swift in Sources */,
 				2063521023A14A25002B2F84 /* Alert.swift in Sources */,
+				2076D3BE23AF79470033F4E6 /* FriendsListResponse.swift in Sources */,
 				2065427D239A4F1F004151A2 /* Message+CoreDataProperties.swift in Sources */,
 				2063520E23A13FD1002B2F84 /* FriendsViewController.swift in Sources */,
 				209862F6239CB6530081BCF3 /* Token+CoreDataClass.swift in Sources */,
 				2050FA4723A3863700E78344 /* LoggedUsersTableViewCell.swift in Sources */,
 				206BECB5239A46DB007E3281 /* LoginViewController.swift in Sources */,
 				2055120423978AA700206765 /* FriendsTableViewCell.swift in Sources */,
+				2076D3BA23AF62F20033F4E6 /* LoginResponse.swift in Sources */,
 				209862F7239CB6530081BCF3 /* Token+CoreDataProperties.swift in Sources */,
 				205511FE2397897500206765 /* AddFriendViewController.swift in Sources */,
 				2065427C239A4F1F004151A2 /* Message+CoreDataClass.swift in Sources */,
 				205511FC2397894100206765 /* MessageViewController.swift in Sources */,
+				2076D3B823AF62B00033F4E6 /* ResponsePattern.swift in Sources */,
 				20654281239A4F1F004151A2 /* Friend+CoreDataProperties.swift in Sources */,
 				209862F9239CE1B00081BCF3 /* CoreDataStack.swift in Sources */,
 				209862F5239CB6530081BCF3 /* User+CoreDataProperties.swift in Sources */,

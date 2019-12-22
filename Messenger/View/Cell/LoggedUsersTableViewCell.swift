@@ -13,8 +13,8 @@ class LoggedUsersTableViewCell: UITableViewCell {
     //MARK: Properties
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var loginLabel: UILabel!
-    
-    
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

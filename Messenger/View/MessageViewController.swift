@@ -24,8 +24,10 @@ class MessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        Timer.scheduledTimer(withTimeInterval: 4.0, repeats: true, block: { _ in
+            self.updateDialog()
+        })
 
         setFetchedResultController()
         fetchedResultsController.delegate = self
@@ -34,11 +36,11 @@ class MessageViewController: UIViewController {
         sendMessageTextField.delegate = self
         self.title = MessageViewController.friend.login ?? ""
     }
-    
-    #warning("TODO: fix the scroll to buttom 'jump'")
+
+    #warning("TODO: fix the scroll to bottom 'jump'")
     override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+        super.viewDidAppear(animated)
+
         scrollToBottom()
     }
 
@@ -48,10 +50,7 @@ class MessageViewController: UIViewController {
             CustomAnimations.shakeTextField(sendMessageTextField)
         } else {
             DummyMessengerAPI.sendMessage(sendMessageTextField.text ?? "", in: self, completion: {
-                DummyMessengerAPI.fetchDialogsData(in: self, completion: {
-                    self.tableView.reloadData()
-                    self.scrollToBottom(animated: true)
-                })
+                self.updateDialog()
             })
             sendMessageTextField.text = ""
         }
@@ -59,24 +58,17 @@ class MessageViewController: UIViewController {
 
 
     //MARK: NotificationCenter Actions
-    @objc func keyboardWillShow(_ notification: Notification) {
+    #warning("TODO: fix keyboardWillChange")
+    @objc func keyboardWillChange(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            animateViewMoving(keyboardFrame, up: true)
+            let moveUp = -keyboardFrame.cgRectValue.height
+            let moveDown = UIScreen.main.bounds.height - self.view.frame.maxY
+            let up = self.view.frame.maxY == UIScreen.main.bounds.height
+            let movement: CGFloat = (up ? moveUp : moveDown)
+            UIView.animate(withDuration: 0.3, delay: 0, animations: {
+                self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+            }, completion: nil)
         }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            animateViewMoving(keyboardFrame, up: false)
-        }
-    }
-
-    func animateViewMoving (_ keyboardFrame: NSValue, up: Bool) {
-        let moveValue = keyboardFrame.cgRectValue.height - 70
-        let movement: CGFloat = (up ? -moveValue : moveValue)
-        UIView.animate(withDuration: 0.3, delay: 0, animations: {
-            self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-        }, completion: nil)
     }
 
     //MARK: Private Methods
@@ -85,13 +77,23 @@ class MessageViewController: UIViewController {
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
         request.predicate = NSPredicate(format: "friend.login = %@", MessageViewController.friend.login ?? "")
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        try! fetchedResultsController.performFetch()
+        guard let _ = try? fetchedResultsController.performFetch() else {
+            Alert.performAlert(to: self, message: "Can't fetch from current context")
+            return
+        }
+    }
+
+    private func updateDialog() {
+        DummyMessengerAPI.fetchDialogsData(in: self, completion: {
+            self.tableView.reloadData()
+            self.scrollToBottom(animated: true)
+        })
     }
 
     private func scrollToBottom(animated: Bool = false) {
-        let messageCnt = fetchedResultsController.fetchedObjects!.count
-        if messageCnt > 0 {
-            self.tableView.scrollToRow(at: NSIndexPath.init(row: messageCnt - 1, section: 0) as IndexPath, at: .bottom, animated: animated)
+        let messagesCount = fetchedResultsController.fetchedObjects?.count ?? 0
+        if messagesCount > 0 {
+            self.tableView.scrollToRow(at: NSIndexPath.init(row: messagesCount - 1, section: 0) as IndexPath, at: .bottom, animated: animated)
         }
     }
 
@@ -119,14 +121,10 @@ extension MessageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = fetchedResultsController.object(at: indexPath)
         let senderIsFriend = message.senderId == MessageViewController.friend.id
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: senderIsFriend ? "FriendMessageCell" : "UserMessageCell", for: indexPath)
-        as? MessageTableViewCell else {
-            fatalError("The dequeued cell is not an instance of MessageTableViewCell.")
-        }
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: senderIsFriend ? "FriendMessageCell" : "UserMessageCell", for: indexPath) as! MessageTableViewCell
 
         cell.messageLabel.text = message.body ?? ""
-        cell.messageView.backgroundColor = senderIsFriend ? .systemGray6 : .systemTeal
 
         cell.selectionStyle = .none
 
@@ -146,20 +144,20 @@ extension MessageViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .none)
-        default:
-            break
+        guard let newIndexPath = newIndexPath else {
+            Alert.performAlert(to: self, message: "FetchedResultsController can't update object")
+            return
+        }
+
+        if type == .insert {
+            tableView.insertRows(at: [newIndexPath], with: .none)
         }
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
+
+        if type == .insert {
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .none)
-        default:
-            break
         }
     }
 }

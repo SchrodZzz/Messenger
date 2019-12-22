@@ -10,7 +10,7 @@ import UIKit
 
 class Alert {
 
-    static func performAlertTo(_ viewController: UIViewController, with title: String = "Ooops...", message: String, shouldPopToRootVC: Bool = false) {
+    static func performAlert(to viewController: UIViewController, with title: String = "Ooops...", message: String, shouldPopToRootVC: Bool = false) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         var okAction: UIAlertAction
         if shouldPopToRootVC {
@@ -24,7 +24,6 @@ class Alert {
 
         viewController.present(alert, animated: true)
     }
-    
 }
 
 

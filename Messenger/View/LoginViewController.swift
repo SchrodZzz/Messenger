@@ -9,8 +9,6 @@
 import UIKit
 import CoreData
 
-let stack = CoreDataStack()
-
 class LoginViewController: UIViewController {
 
     //MARK: Properties
@@ -32,16 +30,14 @@ class LoginViewController: UIViewController {
         fetchedResultsController.delegate = self
 
         tableView.separatorStyle = .none
-        indicator.hidesWhenStopped = true
-        passwordTextField.isSecureTextEntry = true
-        
+
         loginTextField.delegate = self
         passwordTextField.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         setFetchedResultController()
         tableView.reloadData()
     }
@@ -49,10 +45,14 @@ class LoginViewController: UIViewController {
     //MARK: Button Actions
     @IBAction func loginButtonTyped(_ sender: Any) {
         let login = loginTextField.text ?? ""
-        if let unfilledTextField = getFirstUnfilledTextField() {
+        if let unfilledTextField = Utils.getFirstUnfilledTextField(from: [loginTextField, passwordTextField]) {
             CustomAnimations.shakeTextField(unfilledTextField)
         } else {
-            authUser(login: login, password: passwordTextField.text ?? "")
+            DummyMessengerAPI.authUser(in: self, login: login, password: passwordTextField.text ?? "", preparation: {
+                self.indicator.startAnimating()
+            }, completion: {
+                self.indicator.stopAnimating()
+            })
 
             passwordTextField.text = ""
         }
@@ -64,76 +64,15 @@ class LoginViewController: UIViewController {
 
 
     //MARK: Private Methods
-    private func getFirstUnfilledTextField() -> UITextField? {
-        if loginTextField.text == "" {
-            return loginTextField
-        } else if passwordTextField.text == "" {
-            return passwordTextField
-        } else {
-            return nil
-        }
-    }
-
-    private func authUser(login: String, password: String) {
-        let json: [String: Any] = ["login": login, "password": password]
-        let jsonBody = try? JSONSerialization.data(withJSONObject: json)
-
-        let request = DummyMessengerAPI.createRequest(subPath: "/user/login", httpMethod: "POST", httpBody: jsonBody)
-
-        indicator.startAnimating()
-
-        let task = DummyMessengerAPI.createSession().dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            DispatchQueue.main.async {
-                self.indicator.stopAnimating()
-                let responseJSON = try? JSONSerialization.jsonObject(with: data)
-                if let responseJSON = responseJSON as? [String: Any] {
-                    if responseJSON["status"] as! Int == 0 {
-                        Alert.performAlertTo(self, message: responseJSON["message"] as! String)
-                    } else {
-                        let tokenEntity = NSEntityDescription.entity(forEntityName: "Token", in: stack.context)!
-                        let token = Token(entity: tokenEntity, insertInto: stack.context)
-                        token.expirationDate = Utils.getDate(from: responseJSON["tokenExpDate"] as! String)
-                        token.value = responseJSON["token"] as? String
-                        try! stack.context.save()
-
-                        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "User")
-                        fetchRequest.predicate = NSPredicate(format: "login = %@", login)
-                        let users = try! stack.context.fetch(fetchRequest)
-
-                        if users.count == 0 {
-                            let userEntity = NSEntityDescription.entity(forEntityName: "User", in: stack.context)!
-                            let user = User(entity: userEntity, insertInto: stack.context)
-                            user.login = login
-                            user.token = token
-                            try! stack.context.save()
-                        } else {
-                            let user = users[0] as! NSManagedObject
-                            user.setValue(token, forKey: "token")
-                        }
-
-                        DummyMessengerAPI.userLogin = login
-                        DummyMessengerAPI.userToken = token.value ?? ""
-                        self.performSegue(withIdentifier: "toMainControllerSegue", sender: nil)
-                    }
-                } else {
-                    Alert.performAlertTo(self, message: "Connection Error")
-                }
-            }
-        }
-
-        task.resume()
-    }
-
     private func setFetchedResultController() {
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "login", ascending: true)]
         request.predicate = NSPredicate(format: "token.expirationDate > %@", Utils.getCurrentDate() as NSDate)
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        try! fetchedResultsController.performFetch()
+        guard let _ = try? fetchedResultsController.performFetch() else {
+            Alert.performAlert(to: self, message: "Can't perform fetch from current context")
+            return
+        }
     }
 
 }
@@ -164,10 +103,7 @@ extension LoginViewController: UITableViewDelegate, UITableViewDataSource {
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LoggedUserCell", for: indexPath)
-        as? LoggedUsersTableViewCell else {
-            fatalError("The dequeued cell is not an instance of LoggedUsersTableViewCell.")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LoggedUserCell", for: indexPath) as! LoggedUsersTableViewCell
 
         let user = fetchedResultsController.object(at: indexPath)
         cell.avatarImageView.image = UIImage(named: "defaultAvatar")
@@ -182,14 +118,17 @@ extension LoginViewController: UITableViewDelegate, UITableViewDataSource {
 
         let fetchRequest: NSFetchRequest<Token> = Token.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "user.login = %@", login)
-        let tokens = try! stack.context.fetch(fetchRequest)
+        guard let tokens = try? stack.context.fetch(fetchRequest) else {
+            Alert.performAlert(to: self, message: "Can't fetch from current context")
+            return
+        }
         let token = tokens[0]
 
         DummyMessengerAPI.userLogin = login
         DummyMessengerAPI.userToken = token.value ?? ""
         self.performSegue(withIdentifier: "toMainControllerSegue", sender: nil)
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let rowsNum = fetchedResultsController.sections?[section].numberOfObjects ?? 0
         return rowsNum > 0 ? "Authorized Users" : ""
@@ -208,17 +147,23 @@ extension LoginViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
+        guard let newIndexPath = newIndexPath else {
+            Alert.performAlert(to: self, message: "FetchedResultsController can't update object")
+            return
+        }
+
         switch type {
         case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .none)
+            tableView.insertRows(at: [newIndexPath], with: .none)
         case .delete:
-            tableView.deleteRows(at: [newIndexPath!], with: .none)
+            tableView.deleteRows(at: [newIndexPath], with: .none)
         default:
             break
         }
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+
         switch type {
         case .insert:
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .none)

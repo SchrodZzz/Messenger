@@ -8,6 +8,8 @@
 
 import UIKit
 
+let stack = CoreDataStack()
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?

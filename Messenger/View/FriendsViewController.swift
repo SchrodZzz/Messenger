@@ -56,7 +56,10 @@ class FriendsViewController: UIViewController {
         request.sortDescriptors = [NSSortDescriptor(key: "login", ascending: true)]
         request.predicate = NSPredicate(format: "user.login = %@", DummyMessengerAPI.userLogin)
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        try! fetchedResultsController.performFetch()
+        guard let _ = try? fetchedResultsController.performFetch() else {
+            Alert.performAlert(to: self, message: "Can't fetch from current context")
+            return
+        }
     }
 
 }
@@ -74,10 +77,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath)
-        as? FriendsTableViewCell else {
-            fatalError("The dequeued cell is not an instance of FriendsTableViewCell.")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as! FriendsTableViewCell
 
         let friend = fetchedResultsController.object(at: indexPath)
         cell.avatarImageView.image = UIImage(named: "defaultAvatar")
@@ -115,20 +115,20 @@ extension FriendsViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .none)
-        default:
-            break
+        guard let newIndexPath = newIndexPath else {
+            Alert.performAlert(to: self, message: "FetchedResultsController can't update object")
+            return
+        }
+
+        if type == .insert {
+            tableView.insertRows(at: [newIndexPath], with: .none)
         }
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
+
+        if type == .insert {
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .none)
-        default:
-            break
         }
     }
 }

@@ -18,8 +18,8 @@ class SettingsTableViewController: UITableViewController {
     //MARK: Application life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Alert.performAlertTo(self, with: "Still in develop", message: "Sorry, but this View is not finished yet, from here you can only logout from your current account")
+
+        Alert.performAlert(to: self, with: "Still in develop", message: "Sorry, but this View is not finished yet, from here you can only logout from your current account")
 
 
         // Uncomment the following line to preserve selection between presentations
@@ -98,43 +98,7 @@ class SettingsTableViewController: UITableViewController {
 
     //MARK: Button Actions
     @IBAction func logOutButtonTyped(_ sender: Any) {
-        logoutCurrentUser()
+        DummyMessengerAPI.logoutCurrentUser(in: self)
     }
-
-    //MARK: Private Methods
-    private func logoutCurrentUser() {
-        var request = DummyMessengerAPI.createRequest(subPath: "/user/logout", httpMethod: "POST", httpBody: nil)
-        request.addValue("Bearer " + DummyMessengerAPI.userToken, forHTTPHeaderField: "Authorization")
-
-        let task = DummyMessengerAPI.createSession().dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            DispatchQueue.main.async {
-                let responseJSON = try? JSONSerialization.jsonObject(with: data)
-                if let responseJSON = responseJSON as? [String: Any] {
-                    if responseJSON["status"] as! Int == 0 {
-                        Alert.performAlertTo(self, message: responseJSON["message"] as! String)
-                    } else {
-                        let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Token")
-                        request.predicate = NSPredicate(format: "user.login = %@", DummyMessengerAPI.userLogin)
-                        let tokens = try! stack.context.fetch(request)
-                        let token = tokens[0] as! NSManagedObject
-                        token.setValue(Utils.getCurrentDate(), forKey: "expirationDate")
-                        
-                        try! stack.context.save()
-                        
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                } else {
-                    Alert.performAlertTo(self, message: "Connection Error")
-                }
-            }
-        }
-
-        task.resume()
-    }
-
 
 }

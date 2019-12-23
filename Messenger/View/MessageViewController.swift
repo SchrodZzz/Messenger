@@ -56,19 +56,20 @@ class MessageViewController: UIViewController {
         }
     }
 
-
     //MARK: NotificationCenter Actions
-    #warning("TODO: fix keyboardWillChange")
     @objc func keyboardWillChange(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let moveUp = -keyboardFrame.cgRectValue.height
-            let moveDown = UIScreen.main.bounds.height - self.view.frame.maxY
-            let up = self.view.frame.maxY == UIScreen.main.bounds.height
-            let movement: CGFloat = (up ? moveUp : moveDown)
-            UIView.animate(withDuration: 0.3, delay: 0, animations: {
-                self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
-            }, completion: nil)
-        }
+        guard let keyboardGlobalFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        let keyboardLocalFrame = self.view.convert(keyboardGlobalFrame, from: nil)
+        let keyboardInset = max(0, self.view.bounds.height - keyboardLocalFrame.minY - self.view.safeAreaInsets.bottom)
+        self.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardInset, right: 0)
+
+        let duration: TimeInterval = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+        let curve = (notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue ?? 0
+        let options = UIView.AnimationOptions(rawValue: curve << 16) // such bits, much tricks, wow
+
+        UIView.animate(withDuration: duration, delay: 0, options: options, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     //MARK: Private Methods

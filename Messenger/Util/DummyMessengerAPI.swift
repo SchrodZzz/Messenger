@@ -17,9 +17,12 @@ class DummyMessengerAPI {
 
     static var userLogin = ""
     static var userToken = ""
+    
+    static var userID: Int16 = -1
 
 
     static func createRequest(subPath: String, httpMethod: String, httpBody: Data?) -> URLRequest {
+        #warning("TODO: fix fatal")
         guard let url = URL(string: self.path + subPath) else {
             fatalError("Can't create non nil url")
         }
@@ -49,6 +52,7 @@ class DummyMessengerAPI {
     //MARK: User
     static func authUser(in vc: UIViewController, login: String, password: String, preparation: (() -> ())?, completion: (() -> ())?) {
         guard let jsonBody = try? JSONEncoder().encode(UserStruct(login: login, password: password)) else {
+            #warning("TODO: fix crash")
             Alert.performAlert(to: vc, message: "Data Encode Error")
             return
         }
@@ -63,6 +67,7 @@ class DummyMessengerAPI {
                 return
             }
             DispatchQueue.main.async {
+                #warning("TODO: Connection/Decode Error")
                 guard let response = try? JSONDecoder().decode(LoginResponse.self, from: data) else {
                     Alert.performAlert(to: vc, message: "Connection Error")
                     return
@@ -107,6 +112,7 @@ class DummyMessengerAPI {
                         }
                     }
 
+                    DummyMessengerAPI.userID = response.userID ?? -1
                     DummyMessengerAPI.userLogin = login
                     DummyMessengerAPI.userToken = token.value ?? ""
                     vc.performSegue(withIdentifier: "toMainControllerSegue", sender: nil)
@@ -438,6 +444,12 @@ class DummyMessengerAPI {
         }
 
         task.resume()
+    }
+    
+    
+    //MARK: Profile Photo
+    static func getPhotoForUser(with id: Int16) -> UIImage? {
+        return UIImage(named: "defaultAvatar")
     }
 
 }

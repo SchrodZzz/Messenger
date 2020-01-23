@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		202F77DA23A2A7A30065706B /* MessageStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202F77D923A2A7A30065706B /* MessageStruct.swift */; };
+		2039386023D958E900279BB8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2039385F23D958E900279BB8 /* ProfileViewController.swift */; };
 		2050FA4723A3863700E78344 /* LoggedUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2050FA4623A3863700E78344 /* LoggedUsersTableViewCell.swift */; };
 		2050FA4923A3A67C00E78344 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2050FA4823A3A67C00E78344 /* MessageTableViewCell.swift */; };
 		205511C52396DC4800206765 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205511C42396DC4800206765 /* AppDelegate.swift */; };
@@ -20,7 +21,6 @@
 		205511EC2396DC4A00206765 /* MessengerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205511EB2396DC4A00206765 /* MessengerUITests.swift */; };
 		205511FC2397894100206765 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205511FB2397894100206765 /* MessageViewController.swift */; };
 		205511FE2397897500206765 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205511FD2397897500206765 /* AddFriendViewController.swift */; };
-		205512002397899200206765 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205511FF2397899200206765 /* SettingsTableViewController.swift */; };
 		2055120423978AA700206765 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2055120323978AA700206765 /* FriendsTableViewCell.swift */; };
 		2055120723978ABB00206765 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2055120623978ABB00206765 /* SettingsTableViewCell.swift */; };
 		2055120C239796D100206765 /* DialogsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2055120B239796D100206765 /* DialogsTableViewCell.swift */; };
@@ -70,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		202F77D923A2A7A30065706B /* MessageStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStruct.swift; sourceTree = "<group>"; };
+		2039385F23D958E900279BB8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2050FA4623A3863700E78344 /* LoggedUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedUsersTableViewCell.swift; sourceTree = "<group>"; };
 		2050FA4823A3A67C00E78344 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		205511C12396DC4800206765 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +89,6 @@
 		205511ED2396DC4A00206765 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		205511FB2397894100206765 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		205511FD2397897500206765 /* AddFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
-		205511FF2397899200206765 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		2055120323978AA700206765 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
 		2055120623978ABB00206765 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		2055120B239796D100206765 /* DialogsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogsTableViewCell.swift; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 				205511FB2397894100206765 /* MessageViewController.swift */,
 				2063520D23A13FD1002B2F84 /* FriendsViewController.swift */,
 				205511FD2397897500206765 /* AddFriendViewController.swift */,
-				205511FF2397899200206765 /* SettingsTableViewController.swift */,
+				2039385F23D958E900279BB8 /* ProfileViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -421,7 +421,6 @@
 				20654280239A4F1F004151A2 /* Friend+CoreDataClass.swift in Sources */,
 				2055120723978ABB00206765 /* SettingsTableViewCell.swift in Sources */,
 				209862ED239BB2B80081BCF3 /* CustomAnimations.swift in Sources */,
-				205512002397899200206765 /* SettingsTableViewController.swift in Sources */,
 				202F77DA23A2A7A30065706B /* MessageStruct.swift in Sources */,
 				20CCB81923AFAB7A00782BD5 /* MessageToSend.swift in Sources */,
 				2076D3CC23AFA3C20033F4E6 /* MessagesListResponse.swift in Sources */,
@@ -437,6 +436,7 @@
 				209862F7239CB6530081BCF3 /* Token+CoreDataProperties.swift in Sources */,
 				205511FE2397897500206765 /* AddFriendViewController.swift in Sources */,
 				2065427C239A4F1F004151A2 /* Message+CoreDataClass.swift in Sources */,
+				2039386023D958E900279BB8 /* ProfileViewController.swift in Sources */,
 				205511FC2397894100206765 /* MessageViewController.swift in Sources */,
 				2076D3B823AF62B00033F4E6 /* ResponsePattern.swift in Sources */,
 				20654281239A4F1F004151A2 /* Friend+CoreDataProperties.swift in Sources */,

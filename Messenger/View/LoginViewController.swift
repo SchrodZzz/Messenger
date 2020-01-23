@@ -25,6 +25,8 @@ class LoginViewController: UIViewController {
     //MARK: View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.delegate = self
 
         setFetchedResultController()
         fetchedResultsController.delegate = self
@@ -172,5 +174,12 @@ extension LoginViewController: NSFetchedResultsControllerDelegate {
         default:
             break
         }
+    }
+}
+
+//MARK: UINavigationControllerDelegate
+extension LoginViewController : UINavigationControllerDelegate {
+    func navigationControllerSupportedInterfaceOrientations(_ navigationController: UINavigationController) -> UIInterfaceOrientationMask {
+        return .portrait
     }
 }
